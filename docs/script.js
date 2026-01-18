@@ -318,10 +318,11 @@ if (document.getElementById('contactForm')) {
         localStorage.setItem('solicitacoes', JSON.stringify(solicitacoes));
 
         // Enviar email se EmailJS estiver disponível
+        console.log('Verificando EmailJS...', typeof emailjs);
         if (typeof emailjs !== 'undefined') {
-            console.log('EmailJS disponível, tentando enviar...');
+            console.log('✅ EmailJS está disponível!');
             try {
-                console.log('Inicializando EmailJS com chave: A2J-Q1oKeyuddbelR');
+                console.log('Inicializando EmailJS...');
                 emailjs.init('A2J-Q1oKeyuddbelR');
                 
                 const templateParams = {
@@ -340,16 +341,16 @@ if (document.getElementById('contactForm')) {
                 console.log('Enviando com parâmetros:', templateParams);
                 emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams)
                     .then(response => {
-                        console.log('Email enviado com sucesso:', response);
+                        console.log('✅ Email enviado com sucesso:', response);
                     })
                     .catch(error => {
-                        console.error('Erro ao enviar email:', error);
+                        console.error('❌ Erro ao enviar email:', error);
                     });
             } catch (error) {
-                console.error('Erro ao tentar enviar:', error);
+                console.error('❌ Erro ao tentar enviar:', error);
             }
         } else {
-            console.log('EmailJS não está disponível');
+            console.log('⚠️ EmailJS NÃO está disponível');
         }
 
         // Criar mensagem de confirmação
