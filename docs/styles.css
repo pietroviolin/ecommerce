@@ -288,6 +288,18 @@ body {
     background-color: #fff8a8;
 }
 
+.toll-table {
+    margin-top: 1rem;
+}
+
+.toll-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.toll-table tbody tr:hover {
+    background-color: #efe7d4;
+}
+
 /* Info Grid */
 .info-grid {
     display: grid;

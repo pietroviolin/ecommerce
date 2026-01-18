@@ -22,6 +22,7 @@ function calcularOrcamento() {
     const numMusicas = parseInt(document.getElementById('numMusicas').value);
     const antecedencia = parseInt(document.getElementById('antecedencia').value);
     const distancia = parseInt(document.getElementById('distancia').value) || 0;
+    const pedagio = parseFloat(document.getElementById('pedagio').value) || 0;
 
     // Preço base
     let precoBase = precos[numMusicas];
@@ -39,12 +40,13 @@ function calcularOrcamento() {
     }
 
     // Total
-    const total = precoBase + acrescimoAnted + custoDeslocacao;
+    const total = precoBase + acrescimoAnted + custoDeslocacao + pedagio;
 
     // Atualizar display
     document.getElementById('precoBase').textContent = precoBase.toFixed(2) + ' €';
     document.getElementById('acrescimoAnted').textContent = acrescimoAnted.toFixed(2) + ' €';
     document.getElementById('deslocacao').textContent = custoDeslocacao.toFixed(2) + ' €';
+    document.getElementById('pedagioTotal').textContent = pedagio.toFixed(2) + ' €';
     document.getElementById('total').textContent = total.toFixed(2) + ' €';
 }
 
