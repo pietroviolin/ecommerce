@@ -1,5 +1,18 @@
-// Tabela de preços base
-const precos = {
+// Verificar quando EmailJS fica disponível
+console.log('script.js carregado');
+console.log('EmailJS ao iniciar:', typeof emailjs);
+
+// Aguardar EmailJS com retry
+function aguardarEmailJS() {
+    if (typeof emailjs !== 'undefined') {
+        console.log('✅ EmailJS carregado com sucesso!');
+        return;
+    }
+    console.log('⏳ Aguardando EmailJS...');
+    setTimeout(aguardarEmailJS, 500);
+}
+
+setTimeout(aguardarEmailJS, 100);
     1: 40,
     2: 76,
     3: 108,
@@ -317,41 +330,43 @@ if (document.getElementById('contactForm')) {
         solicitacoes.push(solicitacao);
         localStorage.setItem('solicitacoes', JSON.stringify(solicitacoes));
 
-        // Enviar email se EmailJS estiver disponível
-        console.log('Verificando EmailJS...', typeof emailjs);
-        if (typeof emailjs !== 'undefined') {
-            console.log('✅ EmailJS está disponível!');
-            try {
-                console.log('Inicializando EmailJS...');
-                emailjs.init('A2J-Q1oKeyuddbelR');
-                
-                const templateParams = {
-                    to_email: 'pietro.dacruz2012@gmail.com',
-                    cliente_nome: solicitacao.nome,
-                    cliente_email: solicitacao.email,
-                    cliente_telefone: solicitacao.telefone || 'Não fornecido',
-                    evento_data: solicitacao.data,
-                    evento_local: solicitacao.local,
-                    num_musicas: solicitacao.musicas,
-                    preco_total: solicitacao.precoTotal.toFixed(2),
-                    mensagem_cliente: solicitacao.mensagem || 'Sem mensagem',
-                    data_envio: solicitacao.dataEnvio
-                };
-                
-                console.log('Enviando com parâmetros:', templateParams);
-                emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams)
-                    .then(response => {
-                        console.log('✅ Email enviado com sucesso:', response);
-                    })
-                    .catch(error => {
-                        console.error('❌ Erro ao enviar email:', error);
-                    });
-            } catch (error) {
-                console.error('❌ Erro ao tentar enviar:', error);
+        // Enviar email com delay para garantir que EmailJS carregou
+        setTimeout(() => {
+            console.log('Verificando EmailJS...', typeof emailjs);
+            if (typeof emailjs !== 'undefined') {
+                console.log('✅ EmailJS está disponível!');
+                try {
+                    console.log('Inicializando EmailJS...');
+                    emailjs.init('A2J-Q1oKeyuddbelR');
+                    
+                    const templateParams = {
+                        to_email: 'pietro.dacruz2012@gmail.com',
+                        cliente_nome: solicitacao.nome,
+                        cliente_email: solicitacao.email,
+                        cliente_telefone: solicitacao.telefone || 'Não fornecido',
+                        evento_data: solicitacao.data,
+                        evento_local: solicitacao.local,
+                        num_musicas: solicitacao.musicas,
+                        preco_total: solicitacao.precoTotal.toFixed(2),
+                        mensagem_cliente: solicitacao.mensagem || 'Sem mensagem',
+                        data_envio: solicitacao.dataEnvio
+                    };
+                    
+                    console.log('Enviando com parâmetros:', templateParams);
+                    emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams)
+                        .then(response => {
+                            console.log('✅ Email enviado com sucesso:', response);
+                        })
+                        .catch(error => {
+                            console.error('❌ Erro ao enviar email:', error);
+                        });
+                } catch (error) {
+                    console.error('❌ Erro ao tentar enviar:', error);
+                }
+            } else {
+                console.log('⚠️ EmailJS NÃO está disponível');
             }
-        } else {
-            console.log('⚠️ EmailJS NÃO está disponível');
-        }
+        }, 500);
 
         // Criar mensagem de confirmação
         const mensagemConfirmacao = document.getElementById('formNote');
