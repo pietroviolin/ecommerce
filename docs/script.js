@@ -466,11 +466,7 @@ function mostrarSolicitacoes() {
                 ${sol.mensagem ? `<p><strong>Mensagem:</strong> ${sol.mensagem}</p>` : ''}
             </div>
             <div class="solicitacao-preco">
-                <p>Preço Base: <strong>${sol.precoBase.toFixed(2)} €</strong></p>
-                ${sol.acrescimoAnted > 0 ? `<p>Acréscimo Antecedência: <strong>${sol.acrescimoAnted.toFixed(2)} €</strong></p>` : ''}
-                ${sol.custoDeslocacao > 0 ? `<p>Deslocação: <strong>${sol.custoDeslocacao.toFixed(2)} €</strong></p>` : ''}
-                ${sol.pedagio > 0 ? `<p>Pedágio: <strong>${sol.pedagio.toFixed(2)} €</strong></p>` : ''}
-                <p class="total"><strong>Total: ${sol.precoTotal.toFixed(2)} €</strong></p>
+                <p class="total"><strong>Preço: ${sol.precoTotal.toFixed(2)} €</strong></p>
             </div>
             <button onclick="deletarSolicitacao(${sol.id})" class="btn-delete">🗑️ Deletar</button>
         </div>
