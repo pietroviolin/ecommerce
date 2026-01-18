@@ -107,7 +107,6 @@ function obterSugestoes(input) {
     if (!input || input.length === 0) return [];
     
     const valor = input.toLowerCase().trim();
-    console.log('Procurando por:', valor);
     const matches = [];
     
     for (const cidade in locais) {
@@ -116,7 +115,6 @@ function obterSugestoes(input) {
         }
     }
     
-    console.log('Encontradas:', matches);
     return matches.slice(0, 10);
 }
 
@@ -126,8 +124,6 @@ function atualizarSugestoes() {
     const dropdown = document.getElementById('sugestoesCidades');
     const valor = input.value;
     
-    console.log('Input value:', valor);
-    
     if (!valor || valor.length === 0) {
         dropdown.innerHTML = '';
         dropdown.style.display = 'none';
@@ -136,7 +132,6 @@ function atualizarSugestoes() {
     }
     
     const sugestoes = obterSugestoes(valor);
-    console.log('Sugestões:', sugestoes);
     
     if (sugestoes.length === 0) {
         dropdown.innerHTML = '';
@@ -147,12 +142,10 @@ function atualizarSugestoes() {
     dropdown.innerHTML = sugestoes.map(cidade => {
         const info = locais[cidade];
         const nomeExibido = cidade.charAt(0).toUpperCase() + cidade.slice(1);
-        return `<div class="sugestao-item" onclick="selecionarCidade('${cidade}')"><strong>${nomeExibido}</strong> - ${info.distancia}km, ${info.pedagio.toFixed(2)}€</div>`;
+        return `<div class="sugestao-item" onclick="selecionarCidade('${cidade}')"><strong>${nomeExibido}</strong></div>`;
     }).join('');
     
-    console.log('Dropdown HTML:', dropdown.innerHTML);
     dropdown.style.display = 'block';
-    console.log('Dropdown display:', dropdown.style.display);
 }
 
 // Função para selecionar cidade
