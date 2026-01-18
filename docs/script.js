@@ -129,10 +129,11 @@ function obterSugestoes(input) {
 function atualizarSugestoes() {
     const input = document.getElementById('localEvento');
     const listaSugestoes = document.getElementById('sugestoesCidades');
-    const valor = input.value;
+    const valor = input.value.toLowerCase();
     
-    if (valor.length < 2) {
+    if (valor.length < 1) {
         listaSugestoes.style.display = 'none';
+        document.getElementById('localInfo').textContent = '';
         return;
     }
     
@@ -143,47 +144,52 @@ function atualizarSugestoes() {
         return;
     }
     
-    listaSugestoes.innerHTML = sugestoes.map(cidade => 
-        `<div class="sugestao-item" onclick="selecionarCidade('${cidade}')">${cidade.charAt(0).toUpperCase() + cidade.slice(1)} (${distancias[cidade]} km)</div>`
-    ).join('');
+    listaSugestoes.innerHTML = sugestoes.map(cidade => {
+        const info = locais[cidade];
+        return `<div class="sugestao-item" onclick="selecionarCidade('${cidade}')" style="cursor: pointer; padding: 8px; border-bottom: 1px solid #eee;"><strong>${cidade.charAt(0).toUpperCase() + cidade.slice(1)}</strong> (${info.distancia}km, ${info.pedagio.toFixed(2)}€)</div>`;
+    }).join('');
     
     listaSugestoes.style.display = 'block';
 }
 
-// Função para atualizar sugestões no formulário
-function atualizarSugestoesForm() {
-    const input = document.getElementById('local');
-    const listaSugestoes = document.getElementById('sugestoesCidadesForm');
-    const valor = input.value;
-    
-    if (valor.length < 2) {
-        listaSugestoes.style.display = 'none';
-        return;
-    }
-    
-    const sugestoes = obterSugestoes(valor);
-    
-    if (sugestoes.length === 0) {
-        listaSugestoes.style.display = 'none';
-        return;
-    }
-    
-    listaSugestoes.innerHTML = sugestoes.map(cidade => 
-        `<div class="sugestao-item" onclick="selecionarCidadeForm('${cidade}')">${cidade.charAt(0).toUpperCase() + cidade.slice(1)} (${distancias[cidade]} km)</div>`
-    ).join('');
-    
-    listaSugestoes.style.display = 'block';
-}
-
-// Função para selecionar uma cidade
+// Função para selecionar cidade
 function selecionarCidade(cidade) {
+    const info = locais[cidade];
     document.getElementById('localEvento').value = cidade.charAt(0).toUpperCase() + cidade.slice(1);
-    document.getElementById('distanciaCalculada').value = distancias[cidade.toLowerCase()];
     document.getElementById('sugestoesCidades').style.display = 'none';
+    document.getElementById('distanciaCalculada').value = info.distancia;
+    document.getElementById('pedagioCalculado').value = info.pedagio;
+    document.getElementById('localInfo').textContent = `Distância: ${info.distancia} km | Pedágio: ${info.pedagio.toFixed(2)} €`;
     calcularOrcamento();
 }
 
-// Função para selecionar uma cidade no formulário
+// Função para atualizar sugestões no formulário de contacto
+function atualizarSugestoesForm() {
+    const input = document.getElementById('local');
+    const listaSugestoes = document.getElementById('sugestoesCidadesForm');
+    const valor = input.value.toLowerCase();
+    
+    if (valor.length < 1) {
+        listaSugestoes.style.display = 'none';
+        return;
+    }
+    
+    const sugestoes = obterSugestoes(valor);
+    
+    if (sugestoes.length === 0) {
+        listaSugestoes.style.display = 'none';
+        return;
+    }
+    
+    listaSugestoes.innerHTML = sugestoes.map(cidade => {
+        const info = locais[cidade];
+        return `<div class="sugestao-item" onclick="selecionarCidadeForm('${cidade}')" style="cursor: pointer; padding: 8px; border-bottom: 1px solid #eee;"><strong>${cidade.charAt(0).toUpperCase() + cidade.slice(1)}</strong> (${info.distancia}km, ${info.pedagio.toFixed(2)}€)</div>`;
+    }).join('');
+    
+    listaSugestoes.style.display = 'block';
+}
+
+// Função para selecionar cidade no formulário
 function selecionarCidadeForm(cidade) {
     document.getElementById('local').value = cidade.charAt(0).toUpperCase() + cidade.slice(1);
     document.getElementById('sugestoesCidadesForm').style.display = 'none';
@@ -227,8 +233,8 @@ function calcularOrcamento() {
     const antecedencia = parseInt(document.getElementById('antecedencia').value);
     const distancia = parseInt(document.getElementById('distanciaCalculada').value) || 0;
     
-    // Obter valor de pedágio
-    let pedagio = parseFloat(document.getElementById('pedagio').value) || 0;
+    // Obter valor de pedágio calculado automaticamente
+    let pedagio = parseFloat(document.getElementById('pedagioCalculado').value) || 0;
 
     // Preço base
     let precoBase = precos[numMusicas];
