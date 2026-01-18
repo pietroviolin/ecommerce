@@ -17,6 +17,69 @@ const precosPorMusica = {
     6: 30
 };
 
+// Tabela de distâncias de Condeixa-a-Nova para cada cidade (km)
+const distancias = {
+    'coimbra': 25,
+    'leiria': 50,
+    'aveiro': 100,
+    'porto': 150,
+    'guarda': 80,
+    'covilhã': 80,
+    'castelo branco': 100,
+    'viseu': 120,
+    'figueira da foz': 60,
+    'mealhada': 20,
+    'penela': 30,
+    'miranda do corvo': 40,
+    'góis': 35,
+    'tábua': 45,
+    'santa comba dão': 70,
+    'oliveira do hospital': 50
+};
+
+// Função para obter sugestões de cidades
+function obterSugestoes(input) {
+    const valor = input.toLowerCase().trim();
+    if (valor.length < 2) return [];
+    
+    return Object.keys(distancias).filter(cidade => 
+        cidade.includes(valor)
+    ).slice(0, 8);
+}
+
+// Função para atualizar sugestões
+function atualizarSugestoes() {
+    const input = document.getElementById('localEvento');
+    const listaSugestoes = document.getElementById('sugestoesCidades');
+    const valor = input.value;
+    
+    if (valor.length < 2) {
+        listaSugestoes.style.display = 'none';
+        return;
+    }
+    
+    const sugestoes = obterSugestoes(valor);
+    
+    if (sugestoes.length === 0) {
+        listaSugestoes.style.display = 'none';
+        return;
+    }
+    
+    listaSugestoes.innerHTML = sugestoes.map(cidade => 
+        `<div class="sugestao-item" onclick="selecionarCidade('${cidade}')">${cidade.charAt(0).toUpperCase() + cidade.slice(1)} (${distancias[cidade]} km)</div>`
+    ).join('');
+    
+    listaSugestoes.style.display = 'block';
+}
+
+// Função para selecionar uma cidade
+function selecionarCidade(cidade) {
+    document.getElementById('localEvento').value = cidade.charAt(0).toUpperCase() + cidade.slice(1);
+    document.getElementById('distanciaCalculada').value = distancias[cidade.toLowerCase()];
+    document.getElementById('sugestoesCidades').style.display = 'none';
+    calcularOrcamento();
+}
+
 // Função para atualizar disponibilidade de músicas conforme antecedência
 function atualizarMusicasDisponiveis() {
     const antecedencia = parseInt(document.getElementById('antecedencia').value);
@@ -53,7 +116,7 @@ function atualizarMusicasDisponiveis() {
 function calcularOrcamento() {
     const numMusicas = parseInt(document.getElementById('numMusicas').value);
     const antecedencia = parseInt(document.getElementById('antecedencia').value);
-    const distancia = parseInt(document.getElementById('distancia').value) || 0;
+    const distancia = parseInt(document.getElementById('distanciaCalculada').value) || 0;
     
     // Obter valor de pedágio (select ou custom)
     let pedagio = 0;
@@ -205,10 +268,17 @@ window.addEventListener('load', function() {
 });
 
 // Validação em tempo real para o campo de distância
-document.getElementById('distancia').addEventListener('keypress', function(e) {
+document.getElementById('distanciaCalculada').addEventListener('keypress', function(e) {
     // Apenas permitir números
     if (!/[0-9]/.test(e.key)) {
         e.preventDefault();
+    }
+});
+
+// Fechar sugestões quando clica fora
+document.addEventListener('click', function(e) {
+    if (e.target.id !== 'localEvento' && e.target.className !== 'sugestao-item') {
+        document.getElementById('sugestoesCidades').style.display = 'none';
     }
 });
 

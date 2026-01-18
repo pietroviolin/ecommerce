@@ -225,6 +225,40 @@ body {
     box-shadow: 0 0 5px rgba(139, 71, 137, 0.3);
 }
 
+/* Dropdown de Sugestões */
+.sugestoes-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    display: none;
+    z-index: 10;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sugestao-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s ease;
+}
+
+.sugestao-item:hover {
+    background-color: rgba(139, 71, 137, 0.1);
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.sugestao-item:last-child {
+    border-bottom: none;
+}
+
 .result {
     background: white;
     padding: 1.5rem;
