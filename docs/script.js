@@ -13,6 +13,9 @@ function aguardarEmailJS() {
 }
 
 setTimeout(aguardarEmailJS, 100);
+
+// Tabela de preços base
+const precos = {
     1: 40,
     2: 76,
     3: 108,
