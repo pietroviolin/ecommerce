@@ -311,26 +311,30 @@ if (document.getElementById('contactForm')) {
             dataEnvio: new Date().toLocaleString('pt-PT')
         };
 
-    // Guardar no localStorage (para painel admin oculto)
-    let solicitacoes = JSON.parse(localStorage.getItem('solicitacoes')) || [];
-    solicitacoes.push(solicitacao);
-    localStorage.setItem('solicitacoes', JSON.stringify(solicitacoes));
+        // Guardar no localStorage (para painel admin oculto)
+        let solicitacoes = JSON.parse(localStorage.getItem('solicitacoes')) || [];
+        solicitacoes.push(solicitacao);
+        localStorage.setItem('solicitacoes', JSON.stringify(solicitacoes));
 
-    // Enviar email
-    enviarEmail(solicitacao);
+        // Criar mensagem de confirmação
+        const mensagemConfirmacao = document.getElementById('formNote');
+        if (mensagemConfirmacao) {
+            mensagemConfirmacao.textContent = '✓ Solicitação enviada com sucesso! Entraremos em contacto em breve.';
+            mensagemConfirmacao.style.color = '#27ae60';
+        }
 
-    // Criar mensagem de confirmação
-    const mensagemConfirmacao = document.getElementById('formNote');
-    mensagemConfirmacao.textContent = '✓ Solicitação enviada com sucesso! Entraremos em contacto em breve.';
-    mensagemConfirmacao.style.color = '#27ae60';
+        console.log('Solicitação guardada:', solicitacao);
 
-    console.log('Solicitação guardada:', solicitacao);
-
-    // Limpar formulário após 2 segundos
-    setTimeout(() => {
-        document.getElementById('contactForm').reset();
-        mensagemConfirmacao.textContent = '';
-    }, 3000);
+        // Limpar formulário após 3 segundos
+        setTimeout(() => {
+            const form = document.getElementById('contactForm');
+            if (form) {
+                form.reset();
+            }
+            if (mensagemConfirmacao) {
+                mensagemConfirmacao.textContent = '';
+            }
+        }, 3000);
     });
 }
 
