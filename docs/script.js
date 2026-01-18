@@ -17,6 +17,38 @@ const precosPorMusica = {
     6: 30
 };
 
+// Função para atualizar disponibilidade de músicas conforme antecedência
+function atualizarMusicasDisponiveis() {
+    const antecedencia = parseInt(document.getElementById('antecedencia').value);
+    const numMusicasSelect = document.getElementById('numMusicas');
+    const opcoes = numMusicasSelect.querySelectorAll('option');
+
+    opcoes.forEach(opcao => {
+        const valor = opcao.value;
+        // Se antecedência é 2-3 meses, desabilitar 5 e 6 músicas
+        if (antecedencia === 10) {
+            if (valor === '5' || valor === '6') {
+                opcao.disabled = true;
+                opcao.style.display = 'none';
+            } else {
+                opcao.disabled = false;
+                opcao.style.display = 'block';
+            }
+        } else {
+            // Permitir todas as opções
+            opcao.disabled = false;
+            opcao.style.display = 'block';
+        }
+    });
+
+    // Se tem 5 ou 6 selecionadas e muda para 2-3 meses, volta para 4
+    if ((numMusicasSelect.value === '5' || numMusicasSelect.value === '6') && antecedencia === 10) {
+        numMusicasSelect.value = '4';
+    }
+
+    calcularOrcamento();
+}
+
 // Função para calcular o orçamento
 function calcularOrcamento() {
     const numMusicas = parseInt(document.getElementById('numMusicas').value);
