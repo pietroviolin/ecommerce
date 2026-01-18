@@ -316,6 +316,30 @@ if (document.getElementById('contactForm')) {
         solicitacoes.push(solicitacao);
         localStorage.setItem('solicitacoes', JSON.stringify(solicitacoes));
 
+        // Enviar email se EmailJS estiver disponível
+        if (typeof emailjs !== 'undefined') {
+            try {
+                emailjs.init('A2J-Q1oKeyuddbelR');
+                
+                const templateParams = {
+                    to_email: 'pietro.dacruz2012@gmail.com',
+                    cliente_nome: solicitacao.nome,
+                    cliente_email: solicitacao.email,
+                    cliente_telefone: solicitacao.telefone || 'Não fornecido',
+                    evento_data: solicitacao.data,
+                    evento_local: solicitacao.local,
+                    num_musicas: solicitacao.musicas,
+                    preco_total: solicitacao.precoTotal.toFixed(2),
+                    mensagem_cliente: solicitacao.mensagem || 'Sem mensagem',
+                    data_envio: solicitacao.dataEnvio
+                };
+                
+                emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams);
+            } catch (error) {
+                console.log('EmailJS não foi enviado:', error);
+            }
+        }
+
         // Criar mensagem de confirmação
         const mensagemConfirmacao = document.getElementById('formNote');
         if (mensagemConfirmacao) {
