@@ -20,7 +20,7 @@ const precosPorMusica = {
 // Ponto de partida (Condeixa-a-Nova)
 const ORIGEM = 'Condeixa-a-Nova, Portugal';
 
-// Tabela de distâncias de backup (caso a API falhe)
+// Tabela de distâncias de Condeixa-a-Nova para cada cidade (km)
 const distancias = {
     'coimbra': 25,
     'leiria': 50,
@@ -40,85 +40,7 @@ const distancias = {
     'oliveira do hospital': 50
 };
 
-// Inicializar Google Places Autocomplete
-function inicializarGooglePlaces() {
-    const input = document.getElementById('localEvento');
-    
-    // Verificar se Google Maps está carregado
-    if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
-        console.log('Google Maps ainda não carregou, usando fallback');
-        return;
-    }
-
-    const autocomplete = new google.maps.places.Autocomplete(input, {
-        componentRestrictions: { country: 'pt' },
-        types: ['geocode']
-    });
-
-    autocomplete.addListener('place_changed', function() {
-        const place = autocomplete.getPlace();
-        
-        if (!place.geometry) {
-            console.log('Lugar não encontrado');
-            return;
-        }
-
-        calcularDistanciaComGoogleMaps(place.formatted_address);
-    });
-}
-
-// Calcular distância usando Google Maps Distance Matrix API
-function calcularDistanciaComGoogleMaps(destino) {
-    if (typeof google === 'undefined' || !google.maps) {
-        console.log('Google Maps não está disponível, usando distâncias pré-definidas');
-        usarDistanciaFallback(destino);
-        return;
-    }
-
-    const service = new google.maps.DistanceMatrixService();
-    
-    service.getDistanceMatrix({
-        origins: [ORIGEM],
-        destinations: [destino],
-        travelMode: 'DRIVING',
-        unitSystem: google.maps.UnitSystem.METRIC
-    }, function(response, status) {
-        if (status === 'OK') {
-            const distanciaMetros = response.rows[0].elements[0].distance.value;
-            const distanciaKm = Math.round(distanciaMetros / 1000);
-            
-            document.getElementById('distanciaCalculada').value = distanciaKm;
-            console.log(`Distância calculada: ${distanciaKm} km`);
-            calcularOrcamento();
-        } else {
-            console.log('Erro ao calcular distância:', status);
-            usarDistanciaFallback(destino);
-        }
-    });
-}
-
-// Fallback: usar distâncias pré-definidas
-function usarDistanciaFallback(destino) {
-    const destinoLower = destino.toLowerCase();
-    let distancia = 0;
-    
-    for (let cidade in distancias) {
-        if (destinoLower.includes(cidade)) {
-            distancia = distancias[cidade];
-            break;
-        }
-    }
-    
-    if (distancia === 0) {
-        alert('Cidade não encontrada na base de dados. Por favor, verifique o nome.');
-        return;
-    }
-    
-    document.getElementById('distanciaCalculada').value = distancia;
-    calcularOrcamento();
-}
-
-// Função para obter sugestões de cidades (fallback manual)
+// Função para obter sugestões de cidades
 function obterSugestoes(input) {
     const valor = input.toLowerCase().trim();
     if (valor.length < 2) return [];
@@ -128,16 +50,11 @@ function obterSugestoes(input) {
     ).slice(0, 8);
 }
 
-// Função para atualizar sugestões (fallback)
+// Função para atualizar sugestões
 function atualizarSugestoes() {
     const input = document.getElementById('localEvento');
     const listaSugestoes = document.getElementById('sugestoesCidades');
     const valor = input.value;
-    
-    // Se Google Maps está ativo e o campo tem mais de 2 caracteres, deixa o Google Maps fazer
-    if (typeof google !== 'undefined' && google.maps && valor.length >= 2) {
-        return;
-    }
     
     if (valor.length < 2) {
         listaSugestoes.style.display = 'none';
@@ -158,7 +75,7 @@ function atualizarSugestoes() {
     listaSugestoes.style.display = 'block';
 }
 
-// Função para selecionar uma cidade (fallback)
+// Função para selecionar uma cidade
 function selecionarCidade(cidade) {
     document.getElementById('localEvento').value = cidade.charAt(0).toUpperCase() + cidade.slice(1);
     document.getElementById('distanciaCalculada').value = distancias[cidade.toLowerCase()];
@@ -389,8 +306,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Inicializar calculadora ao carregar a página
 window.addEventListener('load', function() {
     calcularOrcamento();
-    // Tentar inicializar Google Places com atraso
-    setTimeout(inicializarGooglePlaces, 500);
 });
 
 // Validação em tempo real para o campo de distância
@@ -405,14 +320,6 @@ document.getElementById('distanciaCalculada').addEventListener('keypress', funct
 document.addEventListener('click', function(e) {
     if (e.target.id !== 'localEvento' && e.target.className !== 'sugestao-item') {
         document.getElementById('sugestoesCidades').style.display = 'none';
-    }
-});
-
-// Atalho secreto para abrir painel admin: Ctrl+Shift+A
-document.addEventListener('keydown', function(e) {
-    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-        e.preventDefault();
-        abrirAdmin();
     }
 });
 
