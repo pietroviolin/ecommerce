@@ -95,11 +95,24 @@
                 </div>
 
                 <div class="calculator-group">
-                    <label for="pedagio">Pedágio Estimado (€):</label>
-                    <input type="number" id="pedagio" min="0" value="0" step="0.01" onchange="calcularOrcamento()" onkeyup="calcularOrcamento()" placeholder="Deixe 0 se não houver pedágio">
-                    <small style="display: block; margin-top: 0.5rem; color: #666;">
-                        💡 Verifique em <a href="https://www.viaverde.pt/ferramentas/calculador-de-portagens" target="_blank" style="color: var(--primary-color);">Via Verde</a> ou consulte a tabela abaixo
-                    </small>
+                    <label for="pedagio">Cidade do Evento (para calcular pedágio):</label>
+                    <select id="pedagio" onchange="calcularOrcamento()">
+                        <option value="0">Sem pedágio (mesma região)</option>
+                        <option value="5.5">Leiria (~50 km)</option>
+                        <option value="8">Covilhã (~80 km)</option>
+                        <option value="8.5">Guarda (~80 km)</option>
+                        <option value="10">Aveiro (~100 km)</option>
+                        <option value="10.5">Castelo Branco (~100 km)</option>
+                        <option value="11.5">Viseu (~120 km)</option>
+                        <option value="12">Covilhã via Norte (~120 km)</option>
+                        <option value="15">Porto (~150 km)</option>
+                        <option value="custom">Outro - Inserir manualmente</option>
+                    </select>
+                </div>
+
+                <div class="calculator-group" id="pedagogioCustomDiv" style="display: none;">
+                    <label for="pedagogioCustom">Valor do Pedágio (€):</label>
+                    <input type="number" id="pedagogioCustom" min="0" value="0" step="0.01" onchange="calcularOrcamento()" onkeyup="calcularOrcamento()" placeholder="Insira o valor">
                 </div>
 
                 <div class="result" id="resultado">
@@ -155,63 +168,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            <!-- Pedágio Estimado -->
-            <h3>📍 Estimativa de Pedágio (Condeixa-a-Nova)</h3>
-            <table class="pricing-table toll-table">
-                <thead>
-                    <tr>
-                        <th>Destino (de Condeixa-a-Nova)</th>
-                        <th>Distância (km)</th>
-                        <th>Pedágio Estimado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Covilhã</td>
-                        <td>~80 km</td>
-                        <td>~8,00 € (A23+A25)</td>
-                    </tr>
-                    <tr>
-                        <td>Castelo Branco</td>
-                        <td>~100 km</td>
-                        <td>~10,50 € (A23+A25)</td>
-                    </tr>
-                    <tr>
-                        <td>Covilhã (via norte)</td>
-                        <td>~120 km</td>
-                        <td>~12,00 € (A1+A23)</td>
-                    </tr>
-                    <tr>
-                        <td>Leiria</td>
-                        <td>~50 km</td>
-                        <td>~5,50 € (A1)</td>
-                    </tr>
-                    <tr>
-                        <td>Aveiro</td>
-                        <td>~100 km</td>
-                        <td>~10,00 € (A1)</td>
-                    </tr>
-                    <tr>
-                        <td>Porto</td>
-                        <td>~150 km</td>
-                        <td>~15,00 € (A1)</td>
-                    </tr>
-                    <tr>
-                        <td>Guarda</td>
-                        <td>~80 km</td>
-                        <td>~8,50 € (A25)</td>
-                    </tr>
-                    <tr>
-                        <td>Viseu</td>
-                        <td>~120 km</td>
-                        <td>~11,50 € (A25)</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p style="text-align: center; color: #666; margin-top: 1rem; font-size: 0.9rem;">
-                💡 <strong>Nota:</strong> Estes valores são estimativas. Para um cálculo exato, use <a href="https://www.viaverde.pt/ferramentas/calculador-de-portagens" target="_blank">Via Verde</a>
-            </p>
 
             <!-- Additional Info -->
             <div class="info-grid">

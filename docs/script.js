@@ -22,7 +22,20 @@ function calcularOrcamento() {
     const numMusicas = parseInt(document.getElementById('numMusicas').value);
     const antecedencia = parseInt(document.getElementById('antecedencia').value);
     const distancia = parseInt(document.getElementById('distancia').value) || 0;
-    const pedagio = parseFloat(document.getElementById('pedagio').value) || 0;
+    
+    // Obter valor de pedágio (select ou custom)
+    let pedagio = 0;
+    const pedagogioSelect = document.getElementById('pedagio').value;
+    
+    if (pedagogioSelect === 'custom') {
+        pedagio = parseFloat(document.getElementById('pedagogioCustom').value) || 0;
+        // Mostrar campo customizado
+        document.getElementById('pedagogioCustomDiv').style.display = 'block';
+    } else {
+        pedagio = parseFloat(pedagogioSelect) || 0;
+        // Esconder campo customizado
+        document.getElementById('pedagogioCustomDiv').style.display = 'none';
+    }
 
     // Preço base
     let precoBase = precos[numMusicas];
