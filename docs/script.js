@@ -338,51 +338,6 @@ if (document.getElementById('contactForm')) {
     });
 }
 
-// Função para enviar email
-function enviarEmail(solicitacao) {
-    // Verificar se EmailJS está disponível
-    if (typeof emailjs === 'undefined') {
-        console.log('EmailJS não está carregado. Solicitação guardada no localStorage.');
-        return;
-    }
-    
-    // Inicializar EmailJS (se não foi já inicializado)
-    if (!window.emailJSInitialized) {
-        try {
-            emailjs.init('A2J-Q1oKeyuddbelR'); // Será configurado
-            window.emailJSInitialized = true;
-        } catch (error) {
-            console.error('Erro ao inicializar EmailJS:', error);
-            return;
-        }
-    }
-
-    const templateParams = {
-        to_email: 'pietro.dacruz2012@gmail.com',
-        cliente_nome: solicitacao.nome,
-        cliente_email: solicitacao.email,
-        cliente_telefone: solicitacao.telefone || 'Não fornecido',
-        evento_data: solicitacao.data,
-        evento_local: solicitacao.local,
-        num_musicas: solicitacao.musicas,
-        preco_total: solicitacao.precoTotal.toFixed(2),
-        mensagem_cliente: solicitacao.mensagem || 'Sem mensagem',
-        data_envio: solicitacao.dataEnvio
-    };
-
-    try {
-        emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams)
-            .then(function(response) {
-                console.log('Email enviado com sucesso:', response);
-            })
-            .catch(function(error) {
-                console.error('Erro ao enviar email:', error);
-            });
-    } catch (error) {
-        console.error('Erro ao enviar email:', error);
-    }
-}
-
 // Smooth scroll para links de navegação
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
