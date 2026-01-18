@@ -20,16 +20,29 @@ const precosPorMusica = {
 // Ponto de partida (Condeixa-a-Nova)
 const ORIGEM = 'Condeixa-a-Nova, Portugal';
 
-// Tabela de distâncias de Condeixa-a-Nova para cada cidade (km)
+// Tabela de distâncias de Condeixa-a-Nova para cada distrito/cidade (km)
 const distancias = {
-    'coimbra': 25,
-    'leiria': 50,
+    // Distrito (capitais)
     'aveiro': 100,
-    'porto': 150,
-    'guarda': 80,
-    'covilhã': 80,
+    'beja': 350,
+    'braga': 220,
+    'bragança': 380,
     'castelo branco': 100,
+    'covilhã': 80,
+    'évora': 280,
+    'faro': 500,
+    'guarda': 80,
+    'leiria': 50,
+    'lisboa': 200,
+    'portalegre': 180,
+    'porto': 150,
+    'santarém': 120,
+    'setúbal': 230,
+    'viana do castelo': 280,
+    'vila real': 300,
     'viseu': 120,
+    'coimbra': 25,
+    // Cidades principais
     'figueira da foz': 60,
     'mealhada': 20,
     'penela': 30,
@@ -37,7 +50,69 @@ const distancias = {
     'góis': 35,
     'tábua': 45,
     'santa comba dão': 70,
-    'oliveira do hospital': 50
+    'oliveira do hospital': 50,
+    'mangualde': 110,
+    'nelas': 80,
+    'arganil': 40,
+    'pampilhosa da serra': 60,
+    'ansião': 35,
+    'pedrógão grande': 55,
+    'piódão': 50,
+    // Distritos alternativas (maiores cidades)
+    'ovar': 110,
+    'espinho': 125,
+    'santa maria da feira': 130,
+    'albergaria-a-velha': 95,
+    'águeda': 85,
+    'oliveira de azeméis': 120,
+    'arouca': 110,
+    'feira': 130,
+    'sátão': 100,
+    'lamego': 150,
+    'régua': 140,
+    'peso da régua': 140,
+    'torres vedras': 170,
+    'alenquer': 180,
+    'óbidos': 140,
+    'caldas da rainha': 120,
+    'nazaré': 110,
+    'alcobaça': 130,
+    'batalha': 95,
+    'porto de mós': 80,
+    'tomar': 100,
+    'ferreira do zêzere': 90,
+    'abrantes': 140,
+    'sardoal': 100,
+    'constância': 130,
+    'vila de rei': 110,
+    'montemor-o-novo': 250,
+    'estremoz': 260,
+    'borba': 280,
+    'reguengos de monsaraz': 320,
+    'moura': 360,
+    'serpa': 380,
+    'mértola': 420,
+    'odemira': 380,
+    'aljezur': 450,
+    'silves': 480,
+    'albufeira': 490,
+    'loulé': 480,
+    'olhão': 500,
+    'tavira': 520,
+    'cacém': 210,
+    'queluz': 205,
+    'sintra': 215,
+    'mafra': 230,
+    'ericeira': 240,
+    'cascais': 220,
+    'oeiras': 205,
+    'almada': 215,
+    'caparica': 225,
+    'sesimbra': 250,
+    'alcácer do sal': 280,
+    'grândola': 300,
+    'sines': 320,
+    'santiago do cacém': 330
 };
 
 // Função para obter sugestões de cidades
@@ -75,12 +150,43 @@ function atualizarSugestoes() {
     listaSugestoes.style.display = 'block';
 }
 
+// Função para atualizar sugestões no formulário
+function atualizarSugestoesForm() {
+    const input = document.getElementById('local');
+    const listaSugestoes = document.getElementById('sugestoesCidadesForm');
+    const valor = input.value;
+    
+    if (valor.length < 2) {
+        listaSugestoes.style.display = 'none';
+        return;
+    }
+    
+    const sugestoes = obterSugestoes(valor);
+    
+    if (sugestoes.length === 0) {
+        listaSugestoes.style.display = 'none';
+        return;
+    }
+    
+    listaSugestoes.innerHTML = sugestoes.map(cidade => 
+        `<div class="sugestao-item" onclick="selecionarCidadeForm('${cidade}')">${cidade.charAt(0).toUpperCase() + cidade.slice(1)} (${distancias[cidade]} km)</div>`
+    ).join('');
+    
+    listaSugestoes.style.display = 'block';
+}
+
 // Função para selecionar uma cidade
 function selecionarCidade(cidade) {
     document.getElementById('localEvento').value = cidade.charAt(0).toUpperCase() + cidade.slice(1);
     document.getElementById('distanciaCalculada').value = distancias[cidade.toLowerCase()];
     document.getElementById('sugestoesCidades').style.display = 'none';
     calcularOrcamento();
+}
+
+// Função para selecionar uma cidade no formulário
+function selecionarCidadeForm(cidade) {
+    document.getElementById('local').value = cidade.charAt(0).toUpperCase() + cidade.slice(1);
+    document.getElementById('sugestoesCidadesForm').style.display = 'none';
 }
 
 // Função para atualizar disponibilidade de músicas conforme antecedência
@@ -121,19 +227,8 @@ function calcularOrcamento() {
     const antecedencia = parseInt(document.getElementById('antecedencia').value);
     const distancia = parseInt(document.getElementById('distanciaCalculada').value) || 0;
     
-    // Obter valor de pedágio (select ou custom)
-    let pedagio = 0;
-    const pedagogioSelect = document.getElementById('pedagio').value;
-    
-    if (pedagogioSelect === 'custom') {
-        pedagio = parseFloat(document.getElementById('pedagogioCustom').value) || 0;
-        // Mostrar campo customizado
-        document.getElementById('pedagogioCustomDiv').style.display = 'block';
-    } else {
-        pedagio = parseFloat(pedagogioSelect) || 0;
-        // Esconder campo customizado
-        document.getElementById('pedagogioCustomDiv').style.display = 'none';
-    }
+    // Obter valor de pedágio
+    let pedagio = parseFloat(document.getElementById('pedagio').value) || 0;
 
     // Preço base
     let precoBase = precos[numMusicas];
@@ -318,8 +413,9 @@ document.getElementById('distanciaCalculada').addEventListener('keypress', funct
 
 // Fechar sugestões quando clica fora
 document.addEventListener('click', function(e) {
-    if (e.target.id !== 'localEvento' && e.target.className !== 'sugestao-item') {
+    if (e.target.id !== 'localEvento' && e.target.id !== 'local' && e.target.className !== 'sugestao-item') {
         document.getElementById('sugestoesCidades').style.display = 'none';
+        document.getElementById('sugestoesCidadesForm').style.display = 'none';
     }
 });
 
