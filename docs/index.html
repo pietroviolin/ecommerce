@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pietro Violino - Música para Casamentos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1>🎻 Pietro Violino</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#pricing">Preços</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Música de Violino para o Seu Casamento</h2>
+            <p>Execução técnica precisa com som cuidado e elegância</p>
+            <a href="#contact" class="btn btn-primary">Solicite um Orçamento</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>Sobre o Pietro</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Sou o Pietro, um violinista com 6 anos de formação clássica e dedicação exclusiva ao instrumento. Apesar de ser finalista do ensino básico, possuo uma experiência de palco robusta, tendo atuado como instrumentista em grandes produções de bailado, como O Quebra-Nozes e Coppélia, em salas de referência como o Convento São Francisco.</p>
+                    
+                    <p>A minha formação na Escola Artística Quinta das Flores e a participação em masterclasses com professores de renome garantem uma execução técnica precisa e um som cuidado.</p>
+                    
+                    <p>Para o seu casamento, ofereço não apenas música, mas a disciplina, a pontualidade e a postura séria de quem está habituado à exigência das orquestras, garantindo um ambiente elegante e emocionante para a sua cerimónia.</p>
+                </div>
+                <div class="about-badge">
+                    <div class="badge-item">
+                        <strong>6 anos</strong>
+                        <p>Formação Clássica</p>
+                    </div>
+                    <div class="badge-item">
+                        <strong>Múltiplas</strong>
+                        <p>Produções Bailado</p>
+                    </div>
+                    <div class="badge-item">
+                        <strong>Masterclasses</strong>
+                        <p>Professores Renome</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2>Tabela de Preços</h2>
+            
+            <!-- Price Calculator -->
+            <div class="pricing-calculator">
+                <h3>Calculador de Orçamento</h3>
+                <div class="calculator-group">
+                    <label for="numMusicas">Número de Músicas:</label>
+                    <select id="numMusicas" onchange="calcularOrcamento()">
+                        <option value="1">1 música - 40 €</option>
+                        <option value="2">2 músicas - 76 € (38 € cada)</option>
+                        <option value="3">3 músicas - 108 € (36 € cada)</option>
+                        <option value="4">4 músicas - 136 € (34 € cada)</option>
+                        <option value="5">5 músicas - 160 € (32 € cada) ⭐</option>
+                        <option value="6">6 músicas - 180 € (30 € cada) ⭐</option>
+                    </select>
+                </div>
+
+                <div class="calculator-group">
+                    <label for="antecedencia">Tempo de Antecedência:</label>
+                    <select id="antecedencia" onchange="calcularOrcamento()">
+                        <option value="0">3+ meses - Sem acréscimo</option>
+                        <option value="10">2-3 meses - +10% (apenas até 4 músicas)</option>
+                    </select>
+                </div>
+
+                <div class="calculator-group">
+                    <label for="distancia">Distância do Local (km):</label>
+                    <input type="number" id="distancia" min="0" value="0" onchange="calcularOrcamento()" onkeyup="calcularOrcamento()">
+                </div>
+
+                <div class="result" id="resultado">
+                    <p>Preço Base: <strong id="precoBase">40 €</strong></p>
+                    <p>Acréscimo Antecedência: <strong id="acrescimoAnted">0 €</strong></p>
+                    <p>Deslocação: <strong id="deslocacao">0 €</strong></p>
+                    <hr>
+                    <p class="total">Total Estimado: <strong id="total">40 €</strong></p>
+                </div>
+            </div>
+
+            <!-- Pricing Table -->
+            <h3>Tabela de Preços por Número de Músicas</h3>
+            <table class="pricing-table">
+                <thead>
+                    <tr>
+                        <th>Nº de Músicas</th>
+                        <th>Preço por Música</th>
+                        <th>Preço Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 música</td>
+                        <td>40 €</td>
+                        <td>40 €</td>
+                    </tr>
+                    <tr>
+                        <td>2 músicas</td>
+                        <td>38 €</td>
+                        <td>76 €</td>
+                    </tr>
+                    <tr>
+                        <td>3 músicas</td>
+                        <td>36 €</td>
+                        <td>108 €</td>
+                    </tr>
+                    <tr>
+                        <td>4 músicas</td>
+                        <td>34 €</td>
+                        <td>136 €</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td>5 músicas ⭐</td>
+                        <td>32 €</td>
+                        <td>160 €</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td>6 músicas ⭐ (Desconto Máximo)</td>
+                        <td>30 €</td>
+                        <td>180 €</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Additional Info -->
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>⏰ Tempo de Antecedência</h4>
+                    <ul>
+                        <li><strong>3 meses ou mais:</strong> Sem acréscimo</li>
+                        <li><strong>2–3 meses:</strong> +10% (até 4 músicas)</li>
+                        <li><strong>Menos de 2 meses:</strong> Não aceito marcações</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h4>🚗 Deslocação</h4>
+                    <ul>
+                        <li><strong>Até 10 km:</strong> Sem acréscimo</li>
+                        <li><strong>Acima de 10 km:</strong> 0,30 € por km (0,03 € por km)</li>
+                        <li><strong>Ponto de Partida:</strong> Condeixa-a-Nova</li>
+                        <li>Pedágio: <a href="https://www.viaverde.pt/ferramentas/calculador-de-portagens" target="_blank">Calcule aqui</a></li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h4>ℹ️ Informações Importantes</h4>
+                    <ul>
+                        <li>Menor de idade acompanhado por responsável</li>
+                        <li>Repertório definido com antecedência</li>
+                        <li>Confirmação mediante acordo prévio</li>
+                        <li>Deslocação sem margem de lucro</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contacte-me</h2>
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" name="telefone">
+                </div>
+
+                <div class="form-group">
+                    <label for="data">Data do Evento:</label>
+                    <input type="date" id="data" name="data" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="local">Local do Evento:</label>
+                    <input type="text" id="local" name="local" placeholder="Ex: Convento São Francisco" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="musicas">Número de Músicas Pretendidas:</label>
+                    <select id="musicas" name="musicas" required>
+                        <option value="">Selecione...</option>
+                        <option value="1">1 música</option>
+                        <option value="2">2 músicas</option>
+                        <option value="3">3 músicas</option>
+                        <option value="4">4 músicas</option>
+                        <option value="5">5 músicas</option>
+                        <option value="6">6 músicas</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mensagem">Mensagem / Repertório Preferido:</label>
+                    <textarea id="mensagem" name="mensagem" rows="5" placeholder="Descreva o tipo de cerimónia, repertório preferido ou outras informações relevantes..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
+            </form>
+            <p class="form-note" id="formNote"></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Pietro Violino. Todos os direitos reservados.</p>
+            <p>Formação: Escola Artística Quinta das Flores | Experiência: Teatros e Eventos</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
