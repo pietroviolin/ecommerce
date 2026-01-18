@@ -294,14 +294,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     // Obter dados da calculadora
     const antecedencia = parseInt(document.getElementById('antecedencia').value);
     const distancia = parseInt(document.getElementById('distanciaCalculada').value) || 0;
-    const pedagogioSelect = document.getElementById('pedagio').value;
-    
-    let pedagio = 0;
-    if (pedagogioSelect === 'custom') {
-        pedagio = parseFloat(document.getElementById('pedagogioCustom').value) || 0;
-    } else {
-        pedagio = parseFloat(pedagogioSelect) || 0;
-    }
+    const pedagio = parseFloat(document.getElementById('pedagioCalculado').value) || 0;
     
     let acrescimoAnted = 0;
     if (antecedencia === 10 && numMusicas <= 4) {
@@ -359,7 +352,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 function enviarEmail(solicitacao) {
     // Inicializar EmailJS (se não foi já inicializado)
     if (!window.emailJSInitialized) {
-        emailjs.init(A2J-Q1oKeyuddbelR); // Será configurado
+        emailjs.init('A2J-Q1oKeyuddbelR'); // Será configurado
         window.emailJSInitialized = true;
     }
 
@@ -380,7 +373,7 @@ function enviarEmail(solicitacao) {
         data_envio: solicitacao.dataEnvio
     };
 
-    emailjs.send(service_sn8vyvc, template_cautrsu, templateParams)
+    emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams)
         .then(function(response) {
             console.log('Email enviado com sucesso:', response);
         })
