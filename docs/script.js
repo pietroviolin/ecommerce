@@ -158,7 +158,7 @@ function selecionarCidade(cidade) {
     document.getElementById('sugestoesCidades').style.display = 'none';
     document.getElementById('distanciaCalculada').value = info.distancia;
     document.getElementById('pedagioCalculado').value = info.pedagio;
-    document.getElementById('localInfo').textContent = `Distância: ${info.distancia} km | Pedágio: ${info.pedagio.toFixed(2)} €`;
+    document.getElementById('localInfo').textContent = '';
     
     calcularOrcamento();
 }
