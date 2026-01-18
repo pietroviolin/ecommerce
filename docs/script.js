@@ -104,22 +104,29 @@ const locais = {
 
 // Função para obter sugestões de cidades
 function obterSugestoes(input) {
-    const valor = input.toLowerCase().trim();
-    if (valor.length < 1) return [];
+    if (!input || input.length === 0) return [];
     
-    return Object.keys(locais).filter(cidade => 
-        cidade.includes(valor)
-    ).slice(0, 10);
+    const valor = input.toLowerCase().trim();
+    const matches = [];
+    
+    for (const cidade in locais) {
+        if (cidade.includes(valor)) {
+            matches.push(cidade);
+        }
+    }
+    
+    return matches.slice(0, 10);
 }
 
 // Função para atualizar sugestões
 function atualizarSugestoes() {
     const input = document.getElementById('localEvento');
-    const listaSugestoes = document.getElementById('sugestoesCidades');
-    const valor = input.value.toLowerCase();
+    const dropdown = document.getElementById('sugestoesCidades');
+    const valor = input.value;
     
-    if (valor.length < 1) {
-        listaSugestoes.style.display = 'none';
+    if (!valor || valor.length === 0) {
+        dropdown.innerHTML = '';
+        dropdown.style.display = 'none';
         document.getElementById('localInfo').textContent = '';
         return;
     }
@@ -127,26 +134,32 @@ function atualizarSugestoes() {
     const sugestoes = obterSugestoes(valor);
     
     if (sugestoes.length === 0) {
-        listaSugestoes.style.display = 'none';
+        dropdown.innerHTML = '';
+        dropdown.style.display = 'none';
         return;
     }
     
-    listaSugestoes.innerHTML = sugestoes.map(cidade => {
+    dropdown.innerHTML = sugestoes.map(cidade => {
         const info = locais[cidade];
-        return `<div class="sugestao-item" onclick="selecionarCidade('${cidade}')" style="cursor: pointer; padding: 8px; border-bottom: 1px solid #eee;"><strong>${cidade.charAt(0).toUpperCase() + cidade.slice(1)}</strong> (${info.distancia}km, ${info.pedagio.toFixed(2)}€)</div>`;
+        const nomeExibido = cidade.charAt(0).toUpperCase() + cidade.slice(1);
+        return `<div class="sugestao-item" onclick="selecionarCidade('${cidade}')"><strong>${nomeExibido}</strong> - ${info.distancia}km, ${info.pedagio.toFixed(2)}€</div>`;
     }).join('');
     
-    listaSugestoes.style.display = 'block';
+    dropdown.style.display = 'block';
 }
 
 // Função para selecionar cidade
 function selecionarCidade(cidade) {
     const info = locais[cidade];
-    document.getElementById('localEvento').value = cidade.charAt(0).toUpperCase() + cidade.slice(1);
+    const nomeExibido = cidade.charAt(0).toUpperCase() + cidade.slice(1);
+    
+    document.getElementById('localEvento').value = nomeExibido;
+    document.getElementById('sugestoesCidades').innerHTML = '';
     document.getElementById('sugestoesCidades').style.display = 'none';
     document.getElementById('distanciaCalculada').value = info.distancia;
     document.getElementById('pedagioCalculado').value = info.pedagio;
     document.getElementById('localInfo').textContent = `Distância: ${info.distancia} km | Pedágio: ${info.pedagio.toFixed(2)} €`;
+    
     calcularOrcamento();
 }
 
