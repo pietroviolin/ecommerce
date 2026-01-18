@@ -258,7 +258,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 function enviarEmail(solicitacao) {
     // Inicializar EmailJS (se não foi já inicializado)
     if (!window.emailJSInitialized) {
-        emailjs.init("YOUR_PUBLIC_KEY"); // Será configurado
+        emailjs.init(A2J-Q1oKeyuddbelR); // Será configurado
         window.emailJSInitialized = true;
     }
 
@@ -279,7 +279,7 @@ function enviarEmail(solicitacao) {
         data_envio: solicitacao.dataEnvio
     };
 
-    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+    emailjs.send(service_sn8vyvc, template_cautrsu, templateParams)
         .then(function(response) {
             console.log('Email enviado com sucesso:', response);
         })
