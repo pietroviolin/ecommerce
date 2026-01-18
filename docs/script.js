@@ -16,12 +16,12 @@ setTimeout(aguardarEmailJS, 100);
 
 // Tabela de preços base
 const precos = {
-    1: 40,
-    2: 76,
-    3: 108,
-    4: 136,
-    5: 160,
-    6: 180
+    '1': 40,
+    '2': 76,
+    '3': 108,
+    '4': 136,
+    '5': 160,
+    '6': 180
 };
 
 // Tabela de distâncias e pedágios
