@@ -24,25 +24,19 @@ function atualizarMusicasDisponiveis() {
     const opcoes = numMusicasSelect.querySelectorAll('option');
 
     opcoes.forEach(opcao => {
-        const valor = opcao.value;
+        const valor = parseInt(opcao.value);
         // Se antecedência é 2-3 meses, desabilitar 5 e 6 músicas
-        if (antecedencia === 10) {
-            if (valor === '5' || valor === '6') {
-                opcao.disabled = true;
-                opcao.style.display = 'none';
-            } else {
-                opcao.disabled = false;
-                opcao.style.display = 'block';
-            }
+        if (antecedencia === 10 && (valor === 5 || valor === 6)) {
+            opcao.disabled = true;
+            opcao.textContent = opcao.textContent + ' (não disponível para 2-3 meses)';
         } else {
-            // Permitir todas as opções
             opcao.disabled = false;
-            opcao.style.display = 'block';
         }
     });
 
     // Se tem 5 ou 6 selecionadas e muda para 2-3 meses, volta para 4
-    if ((numMusicasSelect.value === '5' || numMusicasSelect.value === '6') && antecedencia === 10) {
+    const numMusicasAtual = parseInt(numMusicasSelect.value);
+    if ((numMusicasAtual === 5 || numMusicasAtual === 6) && antecedencia === 10) {
         numMusicasSelect.value = '4';
     }
 
