@@ -93,11 +93,11 @@
 
                 <div class="calculator-group">
                     <label for="localEvento">Local do Evento:</label>
-                    <div style="position: relative;">
-                        <input type="text" id="localEvento" placeholder="Ex: Porto, Aveiro, Viseu..." oninput="atualizarSugestoes()">
+                    <div style="position: relative; width: 100%;">
+                        <input type="text" id="localEvento" placeholder="Ex: Porto, Aveiro, Viseu..." oninput="atualizarSugestoes()" style="width: 100%; box-sizing: border-box;">
                         <div id="sugestoesCidades" class="sugestoes-dropdown"></div>
                     </div>
-                    <small id="localInfo" style="color: #666; margin-top: 5px;"></small>
+                    <small id="localInfo" style="color: #666; margin-top: 5px; display: block;"></small>
                     <input type="hidden" id="distanciaCalculada" value="0">
                     <input type="hidden" id="pedagioCalculado" value="0">
                 </div>

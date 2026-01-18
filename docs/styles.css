@@ -235,11 +235,16 @@ body {
     border: 1px solid #ddd;
     border-top: none;
     border-radius: 0 0 4px 4px;
-    display: none;
-    z-index: 10;
+    display: none !important;
+    z-index: 1000;
     max-height: 300px;
     overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: -1px;
+}
+
+.sugestoes-dropdown[style*="display: block"] {
+    display: block !important;
 }
 
 .sugestao-item {
