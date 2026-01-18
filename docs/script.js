@@ -336,10 +336,21 @@ if (document.getElementById('contactForm')) {
 
 // Função para enviar email
 function enviarEmail(solicitacao) {
+    // Verificar se EmailJS está disponível
+    if (typeof emailjs === 'undefined') {
+        console.log('EmailJS não está carregado. Solicitação guardada no localStorage.');
+        return;
+    }
+    
     // Inicializar EmailJS (se não foi já inicializado)
     if (!window.emailJSInitialized) {
-        emailjs.init('A2J-Q1oKeyuddbelR'); // Será configurado
-        window.emailJSInitialized = true;
+        try {
+            emailjs.init('A2J-Q1oKeyuddbelR'); // Será configurado
+            window.emailJSInitialized = true;
+        } catch (error) {
+            console.error('Erro ao inicializar EmailJS:', error);
+            return;
+        }
     }
 
     const templateParams = {
@@ -355,14 +366,17 @@ function enviarEmail(solicitacao) {
         data_envio: solicitacao.dataEnvio
     };
 
-    emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams)
-        .then(function(response) {
-            console.log('Email enviado com sucesso:', response);
-        })
-        .catch(function(error) {
-            console.error('Erro ao enviar email:', error);
-            // Não mostrar erro ao utilizador, já que a solicitação foi guardada
-        });
+    try {
+        emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams)
+            .then(function(response) {
+                console.log('Email enviado com sucesso:', response);
+            })
+            .catch(function(error) {
+                console.error('Erro ao enviar email:', error);
+            });
+    } catch (error) {
+        console.error('Erro ao enviar email:', error);
+    }
 }
 
 // Smooth scroll para links de navegação
