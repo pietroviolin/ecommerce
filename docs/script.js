@@ -318,7 +318,9 @@ if (document.getElementById('contactForm')) {
 
         // Enviar email se EmailJS estiver disponível
         if (typeof emailjs !== 'undefined') {
+            console.log('EmailJS disponível, tentando enviar...');
             try {
+                console.log('Inicializando EmailJS com chave: A2J-Q1oKeyuddbelR');
                 emailjs.init('A2J-Q1oKeyuddbelR');
                 
                 const templateParams = {
@@ -334,10 +336,19 @@ if (document.getElementById('contactForm')) {
                     data_envio: solicitacao.dataEnvio
                 };
                 
-                emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams);
+                console.log('Enviando com parâmetros:', templateParams);
+                emailjs.send('service_sn8vyvc', 'template_cautrsu', templateParams)
+                    .then(response => {
+                        console.log('Email enviado com sucesso:', response);
+                    })
+                    .catch(error => {
+                        console.error('Erro ao enviar email:', error);
+                    });
             } catch (error) {
-                console.log('EmailJS não foi enviado:', error);
+                console.error('Erro ao tentar enviar:', error);
             }
+        } else {
+            console.log('EmailJS não está disponível');
         }
 
         // Criar mensagem de confirmação
