@@ -253,7 +253,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     const telefone = document.getElementById('telefone').value;
     const data = document.getElementById('data').value;
     const local = document.getElementById('local').value;
-    const musicas = document.querySelector('input[name="musicas"]:checked')?.value;
+    const musicas = document.getElementById('musicas').value;
     const mensagem = document.getElementById('mensagem').value;
 
     // Validar campos obrigatórios
@@ -275,7 +275,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     
     // Obter dados da calculadora
     const antecedencia = parseInt(document.getElementById('antecedencia').value);
-    const distancia = parseInt(document.getElementById('distancia').value) || 0;
+    const distancia = parseInt(document.getElementById('distanciaCalculada').value) || 0;
     const pedagogioSelect = document.getElementById('pedagio').value;
     
     let pedagio = 0;
@@ -315,10 +315,13 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         dataEnvio: new Date().toLocaleString('pt-PT')
     };
 
-    // Guardar no localStorage
+    // Guardar no localStorage (para painel admin oculto)
     let solicitacoes = JSON.parse(localStorage.getItem('solicitacoes')) || [];
     solicitacoes.push(solicitacao);
     localStorage.setItem('solicitacoes', JSON.stringify(solicitacoes));
+
+    // Enviar email
+    enviarEmail(solicitacao);
 
     // Criar mensagem de confirmação
     const mensagemConfirmacao = document.getElementById('formNote');
@@ -333,6 +336,41 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         mensagemConfirmacao.textContent = '';
     }, 3000);
 });
+
+// Função para enviar email
+function enviarEmail(solicitacao) {
+    // Inicializar EmailJS (se não foi já inicializado)
+    if (!window.emailJSInitialized) {
+        emailjs.init("YOUR_PUBLIC_KEY"); // Será configurado
+        window.emailJSInitialized = true;
+    }
+
+    const templateParams = {
+        to_email: 'pietro.dacruz2012@gmail.com',
+        cliente_nome: solicitacao.nome,
+        cliente_email: solicitacao.email,
+        cliente_telefone: solicitacao.telefone || 'Não fornecido',
+        evento_data: solicitacao.data,
+        evento_local: solicitacao.local,
+        num_musicas: solicitacao.musicas,
+        preco_base: solicitacao.precoBase.toFixed(2),
+        acrescimo_antecedencia: solicitacao.acrescimoAnted.toFixed(2),
+        custo_deslocacao: solicitacao.custoDeslocacao.toFixed(2),
+        pedagio: solicitacao.pedagio.toFixed(2),
+        preco_total: solicitacao.precoTotal.toFixed(2),
+        mensagem_cliente: solicitacao.mensagem || 'Sem mensagem',
+        data_envio: solicitacao.dataEnvio
+    };
+
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+        .then(function(response) {
+            console.log('Email enviado com sucesso:', response);
+        })
+        .catch(function(error) {
+            console.error('Erro ao enviar email:', error);
+            // Não mostrar erro ao utilizador, já que a solicitação foi guardada
+        });
+}
 
 // Smooth scroll para links de navegação
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -367,6 +405,14 @@ document.getElementById('distanciaCalculada').addEventListener('keypress', funct
 document.addEventListener('click', function(e) {
     if (e.target.id !== 'localEvento' && e.target.className !== 'sugestao-item') {
         document.getElementById('sugestoesCidades').style.display = 'none';
+    }
+});
+
+// Atalho secreto para abrir painel admin: Ctrl+Shift+A
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        abrirAdmin();
     }
 });
 

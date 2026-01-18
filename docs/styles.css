@@ -433,55 +433,6 @@ body {
     margin-top: 1rem;
 }
 
-/* Seleção de Músicas */
-.musicas-select {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 0.5rem;
-}
-
-.musicas-select label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    font-weight: normal;
-    transition: all 0.3s ease;
-}
-
-.musicas-select label:hover {
-    border-color: var(--primary-color);
-    background-color: rgba(139, 71, 137, 0.05);
-}
-
-.musicas-select input[type="radio"] {
-    cursor: pointer;
-    margin: 0;
-}
-
-.musicas-select input[type="radio"]:checked + label,
-.musicas-select label input[type="radio"]:checked {
-    border-color: var(--primary-color);
-    background-color: rgba(139, 71, 137, 0.15);
-    font-weight: 600;
-}
-
-/* Admin Link no navbar */
-.admin-link {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 0.5rem 1rem !important;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.admin-link:hover {
-    background-color: rgba(255, 255, 255, 0.3) !important;
-}
-
 /* Admin Section */
 .admin-section {
     padding: 80px 20px;

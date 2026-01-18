@@ -6,7 +6,9 @@
     <title>Pietro Violino - Música para Casamentos</title>
     <link rel="stylesheet" href="styles.css">
     <!-- Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_API_KEY&libraries=places" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7zsT93lVRJd3GO09gsAQnH1dyZW3Yfks&libraries=places" async defer></script>
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -20,7 +22,6 @@
                 <li><a href="#about">Sobre</a></li>
                 <li><a href="#pricing">Preços</a></li>
                 <li><a href="#contact">Contacto</a></li>
-                <li><a href="javascript:abrirAdmin();" class="admin-link">👤 Admin</a></li>
             </ul>
         </div>
     </nav>
@@ -261,15 +262,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Número de Músicas Pretendidas:</label>
-                    <div class="musicas-select">
-                        <label><input type="radio" name="musicas" value="1" required> 1</label>
-                        <label><input type="radio" name="musicas" value="2"> 2</label>
-                        <label><input type="radio" name="musicas" value="3"> 3</label>
-                        <label><input type="radio" name="musicas" value="4"> 4</label>
-                        <label><input type="radio" name="musicas" value="5"> 5</label>
-                        <label><input type="radio" name="musicas" value="6"> 6</label>
-                    </div>
+                    <label for="musicas">Número de Músicas Pretendidas:</label>
+                    <select id="musicas" name="musicas" required>
+                        <option value="">Selecione...</option>
+                        <option value="1">1 música</option>
+                        <option value="2">2 músicas</option>
+                        <option value="3">3 músicas</option>
+                        <option value="4">4 músicas</option>
+                        <option value="5">5 músicas</option>
+                        <option value="6">6 músicas</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
