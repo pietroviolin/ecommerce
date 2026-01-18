@@ -263,51 +263,53 @@ function calcularOrcamento() {
 }
 
 // Função para submeter o formulário
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const telefone = document.getElementById('telefone').value;
-    const data = document.getElementById('data').value;
-    const local = document.getElementById('local').value;
-    const musicas = document.getElementById('musicas').value;
-    const mensagem = document.getElementById('mensagem').value;
+// Adicionar evento ao formulário quando o DOM estiver pronto
+if (document.getElementById('contactForm')) {
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const nome = document.getElementById('nome').value;
+        const email = document.getElementById('email').value;
+        const telefone = document.getElementById('telefone').value;
+        const data = document.getElementById('data').value;
+        const local = document.getElementById('local').value;
+        const musicas = document.getElementById('musicas').value;
+        const mensagem = document.getElementById('mensagem').value;
 
-    // Validar campos obrigatórios
-    if (!nome || !email || !data || !local || !musicas) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
-        return;
-    }
+        // Validar campos obrigatórios
+        if (!nome || !email || !data || !local || !musicas) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
 
-    // Validar email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        alert('Por favor, insira um email válido.');
-        return;
-    }
+        // Validar email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert('Por favor, insira um email válido.');
+            return;
+        }
 
-    // Calcular o preço total
-    const numMusicas = parseInt(musicas);
-    const precoBase = precos[numMusicas];
-    
-    // Simplesmente usar preço base (sem descontos ou cálculos adicionais)
-    // já que o formulário é apenas para contacto
-    const precoTotal = precoBase;
+        // Calcular o preço total
+        const numMusicas = parseInt(musicas);
+        const precoBase = precos[numMusicas];
+        
+        // Simplesmente usar preço base (sem descontos ou cálculos adicionais)
+        // já que o formulário é apenas para contacto
+        const precoTotal = precoBase;
 
-    // Criar objeto de solicitação
-    const solicitacao = {
-        id: Date.now(),
-        nome,
-        email,
-        telefone,
-        data,
-        local,
-        musicas: numMusicas,
-        mensagem,
-        precoTotal,
-        dataEnvio: new Date().toLocaleString('pt-PT')
-    };
+        // Criar objeto de solicitação
+        const solicitacao = {
+            id: Date.now(),
+            nome,
+            email,
+            telefone,
+            data,
+            local,
+            musicas: numMusicas,
+            mensagem,
+            precoTotal,
+            dataEnvio: new Date().toLocaleString('pt-PT')
+        };
 
     // Guardar no localStorage (para painel admin oculto)
     let solicitacoes = JSON.parse(localStorage.getItem('solicitacoes')) || [];
@@ -329,7 +331,8 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         document.getElementById('contactForm').reset();
         mensagemConfirmacao.textContent = '';
     }, 3000);
-});
+    });
+}
 
 // Função para enviar email
 function enviarEmail(solicitacao) {
