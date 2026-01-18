@@ -266,6 +266,7 @@ function calcularOrcamento() {
 // Adicionar evento ao formulário quando o DOM estiver pronto
 if (document.getElementById('contactForm')) {
     document.getElementById('contactForm').addEventListener('submit', function(e) {
+        console.log('🔴 Formulário foi submetido!');
         e.preventDefault();
         
         const nome = document.getElementById('nome').value;
