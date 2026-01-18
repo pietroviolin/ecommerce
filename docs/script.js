@@ -291,22 +291,9 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     const numMusicas = parseInt(musicas);
     const precoBase = precos[numMusicas];
     
-    // Obter dados da calculadora
-    const antecedencia = parseInt(document.getElementById('antecedencia').value);
-    const distancia = parseInt(document.getElementById('distanciaCalculada').value) || 0;
-    const pedagio = parseFloat(document.getElementById('pedagioCalculado').value) || 0;
-    
-    let acrescimoAnted = 0;
-    if (antecedencia === 10 && numMusicas <= 4) {
-        acrescimoAnted = precoBase * 0.10;
-    }
-    
-    let custoDeslocacao = 0;
-    if (distancia > 10) {
-        custoDeslocacao = (distancia - 10) * 0.30;
-    }
-    
-    const precoTotal = precoBase + acrescimoAnted + custoDeslocacao + pedagio;
+    // Simplesmente usar preço base (sem descontos ou cálculos adicionais)
+    // já que o formulário é apenas para contacto
+    const precoTotal = precoBase;
 
     // Criar objeto de solicitação
     const solicitacao = {
@@ -318,10 +305,6 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
         local,
         musicas: numMusicas,
         mensagem,
-        precoBase,
-        acrescimoAnted,
-        custoDeslocacao,
-        pedagio,
         precoTotal,
         dataEnvio: new Date().toLocaleString('pt-PT')
     };
@@ -364,10 +347,6 @@ function enviarEmail(solicitacao) {
         evento_data: solicitacao.data,
         evento_local: solicitacao.local,
         num_musicas: solicitacao.musicas,
-        preco_base: solicitacao.precoBase.toFixed(2),
-        acrescimo_antecedencia: solicitacao.acrescimoAnted.toFixed(2),
-        custo_deslocacao: solicitacao.custoDeslocacao.toFixed(2),
-        pedagio: solicitacao.pedagio.toFixed(2),
         preco_total: solicitacao.precoTotal.toFixed(2),
         mensagem_cliente: solicitacao.mensagem || 'Sem mensagem',
         data_envio: solicitacao.dataEnvio
