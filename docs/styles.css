@@ -92,6 +92,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .navbar-brand h1 {
@@ -730,6 +731,7 @@ body {
         top: 100%;
         left: 0;
         right: 0;
+        width: 100%;
         background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
         flex-direction: column;
         gap: 0;
